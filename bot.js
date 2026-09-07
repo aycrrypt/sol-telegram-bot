@@ -144,15 +144,20 @@ bot.command("forgetkey", (ctx) => {
   ctx.reply("Your key has been removed from memory.");
 });
 
-bot.command("wallet", (ctx) => {
+bot.command("wallet", async (ctx) => {
   const keypair = userWallets[ctx.from.id];
   if (!keypair) {
     return ctx.reply("No key set. Use /setkey <your_private_key> first.");
   }
-  ctx.reply("Your wallet: " + keypair.publicKey.toBase58());
-});
 
-bot.command("send", (ctx) => ctx.scene.enter("send-wizard"));
+  try {
+    const balanceLamports = await connection.getBalance(keypair.publicKey);
+    const balanceSOL = balanceLamports / LAMPORTS_PER_SOL;
+    ctx.reply("Your wallet: " + keypair.publicKey.toBase58() + "\nBalance: " + balanceSOL + " SOL");
+  } catch (err) {
+    ctx.reply("Your wallet: " + keypair.publicKey.toBase58() + "\n(Couldn't fetch balance: " + err.message + ")");
+  }
+});
 
 bot.launch();
 console.log("Bot is running...");
