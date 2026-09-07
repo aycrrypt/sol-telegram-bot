@@ -12,7 +12,7 @@ const {
 } = require("@solana/web3.js");
 const bs58 = require("bs58");
 
-const NETWORK = "devnet";
+const NETWORK = "mainnet-beta";
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 const connection = new Connection(clusterApiUrl(NETWORK), "confirmed");
