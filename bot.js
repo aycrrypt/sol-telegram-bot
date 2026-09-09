@@ -159,5 +159,7 @@ bot.command("wallet", async (ctx) => {
   }
 });
 
+bot.command("send", (ctx) => ctx.scene.enter("send-wizard"));
+
 bot.launch();
 console.log("Bot is running...");
